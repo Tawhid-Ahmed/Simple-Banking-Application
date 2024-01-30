@@ -1,5 +1,5 @@
 package tawhid.com;
-
+//This is the parent class of Account types.
 public class BankAccount {
     String name;
     String number;
