@@ -54,13 +54,16 @@ public class SimpleBankingApp {
                     searchAccount();
                     break;
                 case 8:
-                    System.out.println("Exiting the application. Thank you!");
+                    System.out.println("----------------------------------------------------------");
+                    System.out.println("Exiting the application.......... Thank you!");
                     break;
                 default:
+                    System.out.println("----------------------------------------------------------");
                     System.out.println("Invalid choice. Please enter a number between 1 and 8.");
                     System.out.println("----------------------------------------------------------");
             }
             } catch (InputMismatchException e) {
+                System.out.println("----------------------------------------------------------");
                 System.out.println("Invalid input. Please enter a valid numeric value.");
                 System.out.println("----------------------------------------------------------");
                 scanner.nextLine(); // Consume the remaining input to avoid an infinite loop
@@ -81,6 +84,7 @@ public class SimpleBankingApp {
             scanner.nextLine();
 
             if (accountType < 1 || accountType > 3) {
+                System.out.println("----------------------------------------------------------");
                 System.out.println("Invalid account type. Please enter a number between 1 and 3.");
                 System.out.println("----------------------------------------------------------");
                 return;
@@ -168,6 +172,10 @@ public class SimpleBankingApp {
         // Auto-generate a unique account number based on the counter
         String accountNumber = "ACC" + String.format("%04d", accountCounter);
         accountCounter++;
+        // Reset the counter if it exceeds a certain limit to avoid overflow
+        if (accountCounter > 9999) {
+            accountCounter = 1;
+        }
         return accountNumber;
     }
 
@@ -194,23 +202,43 @@ public class SimpleBankingApp {
         String accountNumber = scanner.nextLine();
 
         for (BankAccount account : accounts) {
+
             if (account.number.equals(accountNumber)) {
+                try {
+                    System.out.print("Enter new balance: ");
+                    double newBalance = scanner.nextDouble();
 
-                //comment out to enable name and creation date update.
+                    if (newBalance < getMinimumBalance(account)) {
 
-                /*System.out.print("Enter correct name: ");
-                account.name = scanner.nextLine();
-                System.out.print("Enter correct creation Date: ");
-                account.creationDate = scanner.nextLine();*/
+                        throw new IllegalArgumentException("Minimum balance requirement not met.");
+                    }
+                    //comment out to enable name and creation date update.
 
-                System.out.print("Enter new balance: ");
-                double newBalance = scanner.nextDouble();
-                account.balance = newBalance;
-                System.out.println("-------------------------------------");
-                System.out.println("Account updated successfully!");
-                System.out.println("-------------------------------------");
+                    /*System.out.print("Enter correct name: ");
+                    account.name = scanner.nextLine();
+                    System.out.print("Enter correct creation Date: ");
+                    account.creationDate = scanner.nextLine();*/
+
+                    account.balance = newBalance;
+                    System.out.println("-------------------------------------");
+                    System.out.println("Account updated successfully!");
+                    System.out.println("-------------------------------------");
+                }catch (IllegalArgumentException e) {
+                    System.out.println("----------------------------------------------------------");
+                    System.out.println("Minimum balance requirement not met.");
+                    System.out.println("----------------------------------------------------------");
+                    scanner.nextLine(); // Consume the remaining input to avoid an infinite loop
+                }
+                catch (Exception e) {
+                    System.out.println("-----------------------------------------------------------------------");
+                    System.out.println("Invalid input. Please enter a valid numeric value for the new balance.");
+                    System.out.println("-----------------------------------------------------------------------");
+                    scanner.nextLine(); // Consume the remaining input to avoid an infinite loop
+                }
                 return;
             }
+
+
         }
         System.out.println("-------------------------------------");
         System.out.println("Account not found.");
@@ -245,14 +273,29 @@ public class SimpleBankingApp {
 
         for (BankAccount account : accounts) {
             if (account.number.equals(accountNumber)) {
-                System.out.print("Enter amount to deposit: ");
-                double amount = scanner.nextDouble();
-                account.balance += amount; //adding the deposit amount to account.
-                System.out.println("-------------------------------------");
-                System.out.println("Amount deposited successfully!");
-                System.out.println("-------------------------------------");
+                try {
+                    System.out.print("Enter amount to deposit: ");
+                    double amount = scanner.nextDouble();
+
+                    if (amount < 10) {
+                        throw new IllegalArgumentException("Deposit amount can not be less than 10.");
+                    }
+
+                    account.balance += amount; //adding the deposit amount to account.
+                    System.out.println("-------------------------------------");
+                    System.out.println("Amount deposited successfully!");
+                    System.out.println("-------------------------------------");
+                } catch (IllegalArgumentException e) {
+                    System.out.println("Deposit amount can not be less than 10.");
+                    scanner.nextLine(); // Consume the remaining input to avoid an infinite loop
+                }
+                catch (Exception e) {
+                    System.out.println("Invalid input. Please enter a valid numeric value for the deposit amount.");
+                    scanner.nextLine(); // Consume the remaining input to avoid an infinite loop
+                }
                 return;
             }
+
         }
         System.out.println("-------------------------------------");
         System.out.println("Account not found.");
