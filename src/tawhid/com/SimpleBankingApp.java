@@ -48,7 +48,7 @@ public class SimpleBankingApp {
                     withdrawAmount();
                     break;
                 case 7:
-                    //searchAccount();
+                    searchAccount();
                     break;
                 case 8:
                     System.out.println("Exiting the application. Thank you!");
@@ -111,6 +111,7 @@ public class SimpleBankingApp {
         System.out.println("All Accounts:");
         if(accounts.isEmpty()){
             System.out.println("There is no account to display!!!");
+            System.out.println("-------------------------------------");
         }
         //iterate over all accounts in the list and print details of the account.
         for (BankAccount account : accounts) {
@@ -141,11 +142,13 @@ public class SimpleBankingApp {
                 account.balance = newBalance;
 
                 System.out.println("Account updated successfully!");
+                System.out.println("-------------------------------------");
                 return;
             }
         }
 
         System.out.println("Account not found.");
+        System.out.println("-------------------------------------");
     }
 
 
@@ -156,13 +159,15 @@ public class SimpleBankingApp {
 
         for (BankAccount account : accounts) {
             if (account.number.equals(accountNumber)) {
-                accounts.remove(account);
+                accounts.remove(account); //removing the account from the list.
                 System.out.println("Account deleted successfully!");
+                System.out.println("-------------------------------------");
                 return;
             }
         }
 
         System.out.println("Account not found.");
+        System.out.println("-------------------------------------");
     }
 
 
@@ -175,13 +180,15 @@ public class SimpleBankingApp {
             if (account.number.equals(accountNumber)) {
                 System.out.print("Enter amount to deposit: ");
                 double amount = scanner.nextDouble();
-                account.balance += amount;
+                account.balance += amount; //adding the deposit amount to account.
                 System.out.println("Amount deposited successfully!");
+                System.out.println("-------------------------------------");
                 return;
             }
         }
 
         System.out.println("Account not found.");
+        System.out.println("-------------------------------------");
     }
 
 
@@ -196,18 +203,39 @@ public class SimpleBankingApp {
                 double amount = scanner.nextDouble();
 
                 if (account.balance >= amount) {
-                    account.balance-=amount;
+                    account.balance-=amount; //reduce the withdrawal amount
                     System.out.println("Withdrawal successful!");
+                    System.out.println("-------------------------------------");
                 } else {
                     System.out.println("Insufficient funds!");
+                    System.out.println("-------------------------------------");
                 }
                 return;
             }
         }
 
         System.out.println("Account not found.");
+        System.out.println("-------------------------------------");
     }
 
+
+    //method to search with account number
+    private static void searchAccount() {
+        System.out.print("Enter account number to search: ");
+        String accountNumber = scanner.nextLine();
+
+        for (BankAccount account : accounts) {
+            if (account.number.equals(accountNumber)) {
+                System.out.println("Account found:");
+                System.out.println("Account Number: " + account.number +"\n Account Holder: " + account.name +
+                        "\n Creation Date: "+account.creationDate + "\n Balance: " + account.balance +"\n ------------------------");
+                return;
+            }
+        }
+
+        System.out.println("Account not found.");
+        System.out.println("-------------------------------------");
+    }
 
 
 
