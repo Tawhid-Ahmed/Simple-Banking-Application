@@ -1,10 +1,13 @@
 package tawhid.com;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class SimpleBankingApp {
 
     private static Scanner scanner = new Scanner(System.in);
+
+    private static ArrayList<BankAccount> accounts = new ArrayList<>();
     public static void main(String [] args){
         int choice;
 
@@ -27,7 +30,7 @@ public class SimpleBankingApp {
             //switch cases according to option selected by user
             switch (choice) {
                 case 1:
-                    //createNewAccount();
+                    createNewAccount();
                     break;
                 case 2:
                     //displayAllAccounts();
@@ -57,4 +60,54 @@ public class SimpleBankingApp {
 
         scanner.close();
     }
+
+
+    //method for new account creation.
+    private static void createNewAccount() {
+        //Choosing options for account type
+        System.out.print("Enter account type (1. Current, 2. Savings, 3. Salary): ");
+        int accountType = scanner.nextInt();
+        scanner.nextLine();
+
+        System.out.print("Enter account holder's name: ");
+        String name = scanner.nextLine();
+
+        System.out.print("Enter account number: ");
+        String number = scanner.nextLine();
+
+        System.out.print("Enter account creation date: ");
+        String creationDate = scanner.nextLine();
+
+        System.out.print("Enter initial balance: ");
+        double initialBalance = scanner.nextDouble();
+
+        BankAccount account;
+        //switching to appropriate account type
+        switch (accountType) {
+            case 1:
+
+                account = new CurrentAccount(name, number, creationDate, initialBalance);
+                break;
+            case 2:
+
+                account = new SavingsAccount(name, number, creationDate, initialBalance);
+                break;
+            case 3:
+
+                account = new SalaryAccount(name, number, creationDate, initialBalance);
+                break;
+            default:
+                System.out.println("Invalid account type.");
+                return;
+        }
+
+        accounts.add(account);
+        System.out.println("Account created successfully!");
+        System.out.println("-------------------------------------");
+    }
+
+
+
+
+
 }
