@@ -33,7 +33,7 @@ public class SimpleBankingApp {
                     createNewAccount();
                     break;
                 case 2:
-                    //displayAllAccounts();
+                    displayAllAccounts();
                     break;
                 case 3:
                     //updateAccount();
@@ -104,6 +104,20 @@ public class SimpleBankingApp {
         accounts.add(account);
         System.out.println("Account created successfully!");
         System.out.println("-------------------------------------");
+    }
+
+    //method to display all existing accounts
+    private static void displayAllAccounts() {
+        System.out.println("All Accounts:");
+        if(accounts.isEmpty()){
+            System.out.println("There is no account to display!!!");
+        }
+        //iterate over all accounts in the list and print details of the account.
+        for (BankAccount account : accounts) {
+            System.out.println("Account Number: " + account.number +"\n Account Holder: " + account.name +
+                    "\n Creation Date: "+account.creationDate + "\n Balance: " + account.balance );
+            System.out.println("-------------------------------------");
+        }
     }
 
 
