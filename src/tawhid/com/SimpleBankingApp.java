@@ -55,7 +55,7 @@ public class SimpleBankingApp {
                     break;
                 case 8:
                     System.out.println("----------------------------------------------------------");
-                    System.out.println("Exiting the application.......... Thank you!");
+                    System.out.println("Exiting the application.......... \nThank you!");
                     break;
                 default:
                     System.out.println("----------------------------------------------------------");
