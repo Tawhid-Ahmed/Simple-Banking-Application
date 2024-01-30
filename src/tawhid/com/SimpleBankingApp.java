@@ -85,14 +85,35 @@ public class SimpleBankingApp {
         //switching to appropriate account type
         switch (accountType) {
             case 1:
+                //check minimum balance constrain to open an account
+                if (initialBalance < CurrentAccount.MIN_BALANCE) {
+                    System.out.println("Minimum balance requirement not met for Current Account.");
+                    System.out.println("Minimum balance for Current Account is: " + CurrentAccount.MIN_BALANCE );
+                    System.out.println("----------------------------------------------------------");
+                    return;
+                }
 
                 account = new CurrentAccount(name, number, creationDate, initialBalance);
                 break;
             case 2:
+                //check minimum balance constrain to open an account
+                if (initialBalance < SavingsAccount.MIN_BALANCE) {
+                    System.out.println("Minimum balance requirement not met for Savings Account.");
+                    System.out.println("Minimum balance for Savings Account is: " + SavingsAccount.MIN_BALANCE );
+                    System.out.println("----------------------------------------------------------");
+                    return;
+                }
 
                 account = new SavingsAccount(name, number, creationDate, initialBalance);
                 break;
             case 3:
+                //check minimum balance constrain to open an account
+                if (initialBalance < SalaryAccount.MIN_BALANCE) {
+                    System.out.println("Minimum balance requirement not met for Salary Account.");
+                    System.out.println("Minimum balance for Salary Account is: " + SalaryAccount.MIN_BALANCE);
+                    System.out.println("----------------------------------------------------------");
+                    return;
+                }
 
                 account = new SalaryAccount(name, number, creationDate, initialBalance);
                 break;
@@ -201,13 +222,13 @@ public class SimpleBankingApp {
             if (account.number.equals(accountNumber)) {
                 System.out.print("Enter amount to withdraw: ");
                 double amount = scanner.nextDouble();
-
-                if (account.balance >= amount) {
-                    account.balance-=amount; //reduce the withdrawal amount
-                    System.out.println("Withdrawal successful!");
+                //check minimum amount to keep in account
+                if (account.balance - amount >= getMinimumBalance(account)) {
+                    account.balance -= amount;
+                    System.out.println("Amount withdrawn successfully!");
                     System.out.println("-------------------------------------");
                 } else {
-                    System.out.println("Insufficient funds!");
+                    System.out.println("Insufficient funds. Minimum balance requirement not met.");
                     System.out.println("-------------------------------------");
                 }
                 return;
@@ -216,6 +237,18 @@ public class SimpleBankingApp {
 
         System.out.println("Account not found.");
         System.out.println("-------------------------------------");
+    }
+
+
+    private static double getMinimumBalance(BankAccount account) {
+        if (account instanceof CurrentAccount) {
+            return CurrentAccount.MIN_BALANCE;
+        } else if (account instanceof SavingsAccount) {
+            return SavingsAccount.MIN_BALANCE;
+        } else if (account instanceof SalaryAccount) {
+            return SalaryAccount.MIN_BALANCE;
+        }
+        return 0; // Default minimum balance
     }
 
 
