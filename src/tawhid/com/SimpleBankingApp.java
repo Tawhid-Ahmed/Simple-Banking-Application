@@ -36,10 +36,10 @@ public class SimpleBankingApp {
                     displayAllAccounts();
                     break;
                 case 3:
-                    //updateAccount();
+                    updateAccount();
                     break;
                 case 4:
-                    //deleteAccount();
+                    deleteAccount();
                     break;
                 case 5:
                     //depositAmount();
@@ -119,6 +119,55 @@ public class SimpleBankingApp {
             System.out.println("-------------------------------------");
         }
     }
+
+
+    //method to update an account with specific account number
+    private static void updateAccount() {
+        System.out.print("Enter account number to update: ");
+        String accountNumber = scanner.nextLine();
+
+        for (BankAccount account : accounts) {
+            if (account.number.equals(accountNumber)) {
+
+                //comment out to enable name and creation date update.
+
+                /*System.out.print("Enter correct name: ");
+                account.name = scanner.nextLine();
+                System.out.print("Enter correct creation Date: ");
+                account.creationDate = scanner.nextLine();*/
+
+                System.out.print("Enter new balance: ");
+                double newBalance = scanner.nextDouble();
+                account.balance = newBalance;
+
+                System.out.println("Account updated successfully!");
+                return;
+            }
+        }
+
+        System.out.println("Account not found.");
+    }
+
+
+    //method to delete an account with specific account number
+    private static void deleteAccount() {
+        System.out.print("Enter account number to delete: ");
+        String accountNumber = scanner.nextLine();
+
+        for (BankAccount account : accounts) {
+            if (account.number.equals(accountNumber)) {
+                accounts.remove(account);
+                System.out.println("Account deleted successfully!");
+                return;
+            }
+        }
+
+        System.out.println("Account not found.");
+    }
+
+
+
+
 
 
 
