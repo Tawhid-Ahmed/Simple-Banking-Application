@@ -2,6 +2,7 @@ package tawhid.com;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class SimpleBankingApp {
@@ -15,7 +16,7 @@ public class SimpleBankingApp {
 
         do {
             //Adding console option instruction
-
+            try {
             System.out.println("Banking Application Menu:");
             System.out.println("1. Create a new account");
             System.out.println("2. Display all accounts");
@@ -57,6 +58,13 @@ public class SimpleBankingApp {
                     break;
                 default:
                     System.out.println("Invalid choice. Please enter a number between 1 and 8.");
+                    System.out.println("----------------------------------------------------------");
+            }
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid input. Please enter a valid numeric value.");
+                System.out.println("----------------------------------------------------------");
+                scanner.nextLine(); // Consume the remaining input to avoid an infinite loop
+                choice = 0; // Reset choice to force re-entering the loop
             }
         } while (choice != 8);
 
@@ -66,75 +74,94 @@ public class SimpleBankingApp {
 
     //method for new account creation.
     private static void createNewAccount() {
-        //Choosing options for account type
-        System.out.print("Enter account type (1. Current, 2. Savings, 3. Salary): ");
-        int accountType = scanner.nextInt();
-        scanner.nextLine();
+        try {
+            //Choosing options for account type
+            System.out.print("Enter account type (1. Current, 2. Savings, 3. Salary): ");
+            int accountType = scanner.nextInt();
+            scanner.nextLine();
 
-        System.out.print("Enter account holder's name: ");
-        String name = scanner.nextLine();
-
-        //System.out.print("Enter account number: ");
-        // Auto-generate account number
-        String number = generateAccountNumber();
-
-        //System.out.print("Enter account creation date: ");
-
-
-        //String creationDate = scanner.nextLine();
-
-
-        // Use the current date from the system
-        LocalDate currentDate = LocalDate.now();
-        String creationDate = currentDate.toString();
-
-        System.out.print("Enter initial balance: ");
-        double initialBalance = scanner.nextDouble();
-
-        BankAccount account;
-        //switching to appropriate account type
-        switch (accountType) {
-            case 1:
-                //check minimum balance constrain to open an account
-                if (initialBalance < CurrentAccount.MIN_BALANCE) {
-                    System.out.println("Minimum balance requirement not met for Current Account.");
-                    System.out.println("Minimum balance for Current Account is: " + CurrentAccount.MIN_BALANCE );
-                    System.out.println("----------------------------------------------------------");
-                    return;
-                }
-
-                account = new CurrentAccount(name, number, creationDate, initialBalance);
-                break;
-            case 2:
-                //check minimum balance constrain to open an account
-                if (initialBalance < SavingsAccount.MIN_BALANCE) {
-                    System.out.println("Minimum balance requirement not met for Savings Account.");
-                    System.out.println("Minimum balance for Savings Account is: " + SavingsAccount.MIN_BALANCE );
-                    System.out.println("----------------------------------------------------------");
-                    return;
-                }
-
-                account = new SavingsAccount(name, number, creationDate, initialBalance);
-                break;
-            case 3:
-                //check minimum balance constrain to open an account
-                if (initialBalance < SalaryAccount.MIN_BALANCE) {
-                    System.out.println("Minimum balance requirement not met for Salary Account.");
-                    System.out.println("Minimum balance for Salary Account is: " + SalaryAccount.MIN_BALANCE);
-                    System.out.println("----------------------------------------------------------");
-                    return;
-                }
-
-                account = new SalaryAccount(name, number, creationDate, initialBalance);
-                break;
-            default:
-                System.out.println("Invalid account type.");
+            if (accountType < 1 || accountType > 3) {
+                System.out.println("Invalid account type. Please enter a number between 1 and 3.");
+                System.out.println("----------------------------------------------------------");
                 return;
-        }
+            }
 
-        accounts.add(account);
-        System.out.println("Account created successfully!");
-        System.out.println("-------------------------------------");
+            System.out.print("Enter account holder's name: ");
+            String name = scanner.nextLine();
+
+            //System.out.print("Enter account number: ");
+            // Auto-generate account number
+            String number = generateAccountNumber();
+
+            //System.out.print("Enter account creation date: ");
+
+
+            //String creationDate = scanner.nextLine();
+
+
+            // Use the current date from the system
+            LocalDate currentDate = LocalDate.now();
+            String creationDate = currentDate.toString();
+
+            System.out.print("Enter initial balance: ");
+            double initialBalance = scanner.nextDouble();
+
+            BankAccount account;
+            //switching to appropriate account type
+            switch (accountType) {
+                case 1:
+                    //check minimum balance constrain to open an account
+                    if (initialBalance < CurrentAccount.MIN_BALANCE) {
+                        System.out.println("----------------------------------------------------------");
+                        System.out.println("Minimum balance requirement not met for Current Account.");
+                        System.out.println("Minimum balance for Current Account is: " + CurrentAccount.MIN_BALANCE);
+                        System.out.println("----------------------------------------------------------");
+
+                        return;
+                    }
+
+                    account = new CurrentAccount(name, number, creationDate, initialBalance);
+                    break;
+                case 2:
+                    //check minimum balance constrain to open an account
+                    if (initialBalance < SavingsAccount.MIN_BALANCE) {
+                        System.out.println("----------------------------------------------------------");
+                        System.out.println("Minimum balance requirement not met for Savings Account.");
+                        System.out.println("Minimum balance for Savings Account is: " + SavingsAccount.MIN_BALANCE);
+                        System.out.println("----------------------------------------------------------");
+                       return;
+                    }
+
+                    account = new SavingsAccount(name, number, creationDate, initialBalance);
+                    break;
+
+                case 3:
+                    //check minimum balance constrain to open an account
+                    if (initialBalance < SalaryAccount.MIN_BALANCE) {
+                        System.out.println("----------------------------------------------------------");
+                        System.out.println("Minimum balance requirement not met for Salary Account.");
+                        System.out.println("Minimum balance for Salary Account is: " + SalaryAccount.MIN_BALANCE);
+                        System.out.println("----------------------------------------------------------");
+                       return;
+                    }
+
+                    account = new SalaryAccount(name, number, creationDate, initialBalance);
+                    break;
+                default:
+                    System.out.println("Invalid account type.");
+                    return;
+            }
+
+            accounts.add(account);
+            System.out.println("-------------------------------------");
+            System.out.println("Account created successfully!");
+            System.out.println("-------------------------------------");
+        }catch (Exception e) {
+            System.out.println("----------------------------------------------------------");
+            System.out.println("Invalid input. Please enter valid input.");
+            System.out.println("----------------------------------------------------------");
+            scanner.nextLine(); // Consume any remaining input to avoid an infinite loop
+        }
     }
 
     private static String generateAccountNumber() {
@@ -148,6 +175,7 @@ public class SimpleBankingApp {
     private static void displayAllAccounts() {
         System.out.println("All Accounts:");
         if(accounts.isEmpty()){
+            System.out.println("-------------------------------------");
             System.out.println("There is no account to display!!!");
             System.out.println("-------------------------------------");
         }
@@ -178,13 +206,13 @@ public class SimpleBankingApp {
                 System.out.print("Enter new balance: ");
                 double newBalance = scanner.nextDouble();
                 account.balance = newBalance;
-
+                System.out.println("-------------------------------------");
                 System.out.println("Account updated successfully!");
                 System.out.println("-------------------------------------");
                 return;
             }
         }
-
+        System.out.println("-------------------------------------");
         System.out.println("Account not found.");
         System.out.println("-------------------------------------");
     }
@@ -198,12 +226,13 @@ public class SimpleBankingApp {
         for (BankAccount account : accounts) {
             if (account.number.equals(accountNumber)) {
                 accounts.remove(account); //removing the account from the list.
+                System.out.println("-------------------------------------");
                 System.out.println("Account deleted successfully!");
                 System.out.println("-------------------------------------");
                 return;
             }
         }
-
+        System.out.println("-------------------------------------");
         System.out.println("Account not found.");
         System.out.println("-------------------------------------");
     }
@@ -219,12 +248,13 @@ public class SimpleBankingApp {
                 System.out.print("Enter amount to deposit: ");
                 double amount = scanner.nextDouble();
                 account.balance += amount; //adding the deposit amount to account.
+                System.out.println("-------------------------------------");
                 System.out.println("Amount deposited successfully!");
                 System.out.println("-------------------------------------");
                 return;
             }
         }
-
+        System.out.println("-------------------------------------");
         System.out.println("Account not found.");
         System.out.println("-------------------------------------");
     }
@@ -242,16 +272,18 @@ public class SimpleBankingApp {
                 //check minimum amount to keep in account
                 if (account.balance - amount >= getMinimumBalance(account)) {
                     account.balance -= amount;
+                    System.out.println("-------------------------------------");
                     System.out.println("Amount withdrawn successfully!");
                     System.out.println("-------------------------------------");
                 } else {
-                    System.out.println("Insufficient funds. Minimum balance requirement not met.");
+                    System.out.println("-------------------------------------");
+                    System.out.println("Insufficient funds or Minimum balance to keep in account requirement not met.");
                     System.out.println("-------------------------------------");
                 }
                 return;
             }
         }
-
+        System.out.println("-------------------------------------");
         System.out.println("Account not found.");
         System.out.println("-------------------------------------");
     }
@@ -282,7 +314,7 @@ public class SimpleBankingApp {
                 return;
             }
         }
-
+        System.out.println("-------------------------------------");
         System.out.println("Account not found.");
         System.out.println("-------------------------------------");
     }
