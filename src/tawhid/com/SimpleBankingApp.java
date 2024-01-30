@@ -42,10 +42,10 @@ public class SimpleBankingApp {
                     deleteAccount();
                     break;
                 case 5:
-                    //depositAmount();
+                    depositAmount();
                     break;
                 case 6:
-                    //withdrawAmount();
+                    withdrawAmount();
                     break;
                 case 7:
                     //searchAccount();
@@ -158,6 +158,49 @@ public class SimpleBankingApp {
             if (account.number.equals(accountNumber)) {
                 accounts.remove(account);
                 System.out.println("Account deleted successfully!");
+                return;
+            }
+        }
+
+        System.out.println("Account not found.");
+    }
+
+
+    //deposit money to a specific account
+    private static void depositAmount() {
+        System.out.print("Enter account number to deposit into: ");
+        String accountNumber = scanner.nextLine();
+
+        for (BankAccount account : accounts) {
+            if (account.number.equals(accountNumber)) {
+                System.out.print("Enter amount to deposit: ");
+                double amount = scanner.nextDouble();
+                account.balance += amount;
+                System.out.println("Amount deposited successfully!");
+                return;
+            }
+        }
+
+        System.out.println("Account not found.");
+    }
+
+
+    //withdraw money from a specific account
+    private static void withdrawAmount() {
+        System.out.print("Enter account number to withdraw from: ");
+        String accountNumber = scanner.nextLine();
+
+        for (BankAccount account : accounts) {
+            if (account.number.equals(accountNumber)) {
+                System.out.print("Enter amount to withdraw: ");
+                double amount = scanner.nextDouble();
+
+                if (account.balance >= amount) {
+                    account.balance-=amount;
+                    System.out.println("Withdrawal successful!");
+                } else {
+                    System.out.println("Insufficient funds!");
+                }
                 return;
             }
         }
