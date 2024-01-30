@@ -1,5 +1,6 @@
 package tawhid.com;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -8,6 +9,7 @@ public class SimpleBankingApp {
     private static Scanner scanner = new Scanner(System.in);
 
     private static ArrayList<BankAccount> accounts = new ArrayList<>();
+    private static int accountCounter = 1;
     public static void main(String [] args){
         int choice;
 
@@ -72,11 +74,19 @@ public class SimpleBankingApp {
         System.out.print("Enter account holder's name: ");
         String name = scanner.nextLine();
 
-        System.out.print("Enter account number: ");
-        String number = scanner.nextLine();
+        //System.out.print("Enter account number: ");
+        // Auto-generate account number
+        String number = generateAccountNumber();
 
-        System.out.print("Enter account creation date: ");
-        String creationDate = scanner.nextLine();
+        //System.out.print("Enter account creation date: ");
+
+
+        //String creationDate = scanner.nextLine();
+
+
+        // Use the current date from the system
+        LocalDate currentDate = LocalDate.now();
+        String creationDate = currentDate.toString();
 
         System.out.print("Enter initial balance: ");
         double initialBalance = scanner.nextDouble();
@@ -125,6 +135,13 @@ public class SimpleBankingApp {
         accounts.add(account);
         System.out.println("Account created successfully!");
         System.out.println("-------------------------------------");
+    }
+
+    private static String generateAccountNumber() {
+        // Auto-generate a unique account number based on the counter
+        String accountNumber = "ACC" + String.format("%04d", accountCounter);
+        accountCounter++;
+        return accountNumber;
     }
 
     //method to display all existing accounts
