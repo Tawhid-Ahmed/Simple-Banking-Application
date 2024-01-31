@@ -10,6 +10,9 @@ Simple Banking Application is a Java console application. This application can p
 
 
 One can run this application by using the **SimpleBankingApp.java** file which contains the main method and other operational methods. Giving input 1-8 to the console the operation can be performed.
+
+
+
 **Application Structure:**
 
 
