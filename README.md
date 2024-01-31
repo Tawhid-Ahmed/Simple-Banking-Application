@@ -7,9 +7,9 @@ Simple Banking Application is a Java console application. This application can p
 6. Withdraw an amount from your account
 7. Search for account
 8. Exit 
-One can run this application by using the **SimpleBankingApp.java** file which contains the main method and other operational methods. Giving input 1-8 to the console the operation can be performed.
-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+
+One can run this application by using the **SimpleBankingApp.java** file which contains the main method and other operational methods. Giving input 1-8 to the console the operation can be performed.
 **Application Structure:**
 
 
